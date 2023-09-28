@@ -5,6 +5,8 @@ import java.util.Objects;
 
 import javax.persistence.ConstraintMode;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,6 +16,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.loja.virtual.enums.TipoEndereco;
+
 @Entity
 @Table(name = "endereco")
 @SequenceGenerator(name = "seq_endereco", sequenceName = "seq_endereco", initialValue = 1, allocationSize = 1)
@@ -21,12 +25,12 @@ import javax.persistence.Table;
 public class Endereco implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-    
+
 	@Id
-	@GeneratedValue( strategy = GenerationType.SEQUENCE, generator = "seq_endereco")
-	
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_endereco")
+
 	private long id;
-	
+
 	private String ruaLogra;
 	private String cep;
 	private String numero;
@@ -36,8 +40,19 @@ public class Endereco implements Serializable {
 	private String cidade;
 
 	@ManyToOne(targetEntity = Pessoa.class)
-	@JoinColumn(name ="pessoa_id", nullable = false, foreignKey = @ForeignKey(value= ConstraintMode.CONSTRAINT, name= "pessoa_fk"))
+	@JoinColumn(name = "pessoa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "pessoa_fk"))
 	private Pessoa pessoa;
+
+	@Enumerated(EnumType.STRING)
+	private TipoEndereco tipoEndereco;
+
+	public TipoEndereco getTipoEndereco() {
+		return tipoEndereco;
+	}
+
+	public void setTipoEndereco(TipoEndereco tipoEndereco) {
+		this.tipoEndereco = tipoEndereco;
+	}
 
 	public long getId() {
 		return id;
@@ -127,6 +142,5 @@ public class Endereco implements Serializable {
 		Endereco other = (Endereco) obj;
 		return id == other.id;
 	}
-	
-	
+
 }
