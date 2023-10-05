@@ -78,7 +78,6 @@ public class ContaReceber implements Serializable {
 		this.status = status;
 	}
 
-
 	public Date getDtVencimento() {
 		return dtVencimento;
 	}
@@ -135,7 +134,5 @@ public class ContaReceber implements Serializable {
 		ContaReceber other = (ContaReceber) obj;
 		return id == other.id;
 	}
-	
-	
 
 }
