@@ -2,6 +2,7 @@ package com.loja.virtual.model;
 
 import java.util.Objects;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -23,7 +24,8 @@ public class Acesso implements GrantedAuthority {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_acesso")
 	private long id;
-
+    
+	@Column(nullable = false)
 	private String descrecao;
 
 	@Override

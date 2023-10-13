@@ -3,6 +3,7 @@ package com.loja.virtual.model;
 import java.io.Serializable;
 import java.util.Objects;
 
+import javax.persistence.Column;
 import javax.persistence.ConstraintMode;
 import javax.persistence.Entity;
 import javax.persistence.ForeignKey;
@@ -27,7 +28,11 @@ public class AvaliacaoProduto implements Serializable {
 
 	private long id;
 	
+	@Column(nullable = false)
 	private Integer nota;
+	
+	@Column(nullable = false)
+	private String descricao;
 	
 	@ManyToOne
 	@JoinColumn(name = "produto_id", nullable = false, 
@@ -97,6 +102,16 @@ public class AvaliacaoProduto implements Serializable {
 			return false;
 		AvaliacaoProduto other = (AvaliacaoProduto) obj;
 		return id == other.id;
+	}
+
+
+	public String getDescricao() {
+		return descricao;
+	}
+
+
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
 	}
 
 

@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Objects;
 
+import javax.persistence.Column;
 import javax.persistence.ConstraintMode;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -35,16 +36,19 @@ public class ContaPagar implements Serializable {
 
 	private long id;
 
+	@Column(nullable = false)
 	private String descricao;
 
+	@Column(nullable = false)
 	private BigDecimal valorTotal;
 
 	private BigDecimal valorDesconto;
-	
 
+	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
 	private StatusContaReceber status;
 
+	@Column(nullable = false)
 	@Temporal(TemporalType.DATE)
 	private Date dtVencimento;
 
@@ -52,15 +56,12 @@ public class ContaPagar implements Serializable {
 	private Date dtPagamento;
 
 	@ManyToOne(targetEntity = Pessoa.class)
-	@JoinColumn(name = "pessoa_id", nullable = false, 
-	foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "pessoa_fk"))
+	@JoinColumn(name = "pessoa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "pessoa_fk"))
 	private Pessoa pessoa;
-	
-	@ManyToOne(targetEntity = Pessoa.class)
-	@JoinColumn(name = "pessoa_forn_id", nullable = false, 
-	foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "pessoa_for_fk"))
-	private Pessoa pessoa_fornecedor;
 
+	@ManyToOne(targetEntity = Pessoa.class)
+	@JoinColumn(name = "pessoa_forn_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "pessoa_for_fk"))
+	private Pessoa pessoa_fornecedor;
 
 	public long getId() {
 		return id;
@@ -85,7 +86,6 @@ public class ContaPagar implements Serializable {
 	public void setStatus(StatusContaReceber status) {
 		this.status = status;
 	}
-
 
 	public Date getDtVencimento() {
 		return dtVencimento;
@@ -151,7 +151,5 @@ public class ContaPagar implements Serializable {
 		ContaPagar other = (ContaPagar) obj;
 		return id == other.id;
 	}
-	
-	
 
 }

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -16,29 +17,30 @@ import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 
-
-
 @Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @SequenceGenerator(name = "seq_pessoa", sequenceName = "seq_pessoa", initialValue = 1, allocationSize = 1)
-@Inheritance( strategy = InheritanceType.TABLE_PER_CLASS)
 
-public abstract class Pessoa implements Serializable{
+public abstract class Pessoa implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_pessoa")
 	private long id;
-	
+
+	@Column(nullable = false)
 	private String name;
-	
+
+	@Column(nullable = false)
 	private String email;
-	
+
+	@Column(nullable = false)
 	private String telefone;
-	
-	@OneToMany(mappedBy = "pessoa", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)/**/
+
+	@OneToMany(mappedBy = "pessoa", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY) /**/
 	private List<Endereco> enderecos = new ArrayList<Endereco>();
-	
+
 	public List<Endereco> getEnderecos() {
 		return enderecos;
 	}
@@ -46,7 +48,6 @@ public abstract class Pessoa implements Serializable{
 	public void setEnderecos(List<Endereco> enderecos) {
 		this.enderecos = enderecos;
 	}
-	
 
 	public long getId() {
 		return id;
@@ -96,8 +97,5 @@ public abstract class Pessoa implements Serializable{
 		Pessoa other = (Pessoa) obj;
 		return id == other.id;
 	}
-
-
-	
 
 }

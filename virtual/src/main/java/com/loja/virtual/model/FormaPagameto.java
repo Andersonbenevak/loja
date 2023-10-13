@@ -3,6 +3,7 @@ package com.loja.virtual.model;
 import java.io.Serializable;
 import java.util.Objects;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -24,6 +25,7 @@ public class FormaPagameto implements Serializable{
 
 	private Long id;
 	
+	@Column(nullable = false)
 	private String descricao;
 
 	public Long getId() {

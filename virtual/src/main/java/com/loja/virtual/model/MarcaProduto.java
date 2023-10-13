@@ -3,6 +3,7 @@ package com.loja.virtual.model;
 import java.io.Serializable;
 import java.util.Objects;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -23,6 +24,9 @@ public class MarcaProduto implements Serializable {
 
 	private Long id;
 
+	@Column(nullable = false)
+	private String nomeDesc;
+
 	public Long getId() {
 		return id;
 	}
@@ -38,8 +42,6 @@ public class MarcaProduto implements Serializable {
 	public void setNomeDesc(String nomeDesc) {
 		this.nomeDesc = nomeDesc;
 	}
-
-	private String nomeDesc;
 
 	@Override
 	public int hashCode() {
