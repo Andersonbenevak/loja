@@ -56,7 +56,7 @@ public class Produto implements Serializable {
 	
 	private Integer QtdeAlertaEstoque = 0 ;
 	
-	private Integer linkYoutube;
+	private String linkYoutube;
 	
 	private Boolean alertaQtdeEstoque = Boolean.FALSE;
 	
@@ -127,11 +127,12 @@ public class Produto implements Serializable {
 		QtdeAlertaEstoque = qtdeAlertaEstoque;
 	}
 
-	public Integer getLinkYoutube() {
+	
+	public String getLinkYoutube() {
 		return linkYoutube;
 	}
 
-	public void setLinkYoutube(Integer linkYoutube) {
+	public void setLinkYoutube(String linkYoutube) {
 		this.linkYoutube = linkYoutube;
 	}
 
