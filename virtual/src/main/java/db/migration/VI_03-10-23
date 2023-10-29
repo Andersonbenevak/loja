@@ -4,3 +4,38 @@ and constraint_name <> 'unique_acesso_user';
 
 
 alter table usuarios_acesso drop CONSTRAINT "uk_8bak9jswon2id2jbunuqlfl9e"
+
+
+
+CRIACÃO DE TRIGGER PARA ASSOCIACÃO DAS CLASSES
+
+CREATE or replace FUNCTION validaChavePessoa2()
+RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+
+  declare existe integer;
+
+  begin
+    existe = (select count(1) from pessoa_fisica where id = NEW.pessoa_forn_id);
+    if(existe <=0 ) then
+     existe = (select count(1) from pessoa_juridica where id = NEW.pessoa_forn_id);
+    if (existe <= 0) then
+      raise exception 'Não foi encontrado o ID ou PK da pessoa para realizar a associação';
+     end if;
+    end if;
+    RETURN NEW;
+  end;
+  $$;
+
+  create trigger validaChavePessoaContaPagarPessoa_forn_id
+  before update
+  on conta_pagar
+  for each row
+  execute procedure validaChavePessoa2();
+
+  create trigger validaChavePessoaContaPagarPessoa_forn_id3
+  before insert
+  on avaliacao_produto
+  for each row
+  execute procedure validaChavePessoa2();

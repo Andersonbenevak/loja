@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import net.minidev.json.annotate.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 
 /**/
@@ -26,11 +27,14 @@ public class Acesso implements GrantedAuthority {
 	private long id;
     
 	@Column(nullable = false)
-	private String descrecao;
+	private String descricao;
 
-	@Override
-	public String getAuthority() {
-		return this.descrecao;
+	public String getDescricao() {
+		return descricao;
+	}
+
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
 	}
 
 	public long getId() {
@@ -41,29 +45,21 @@ public class Acesso implements GrantedAuthority {
 		this.id = id;
 	}
 
-	public String getDescrecao() {
-		return descrecao;
-	}
-
-	public void setDescrecao(String descrecao) {
-		this.descrecao = descrecao;
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		Acesso acesso = (Acesso) o;
+		return id == acesso.id;
 	}
 
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
 	}
-
+    @JsonIgnore
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Acesso other = (Acesso) obj;
-		return id == other.id;
+	public String getAuthority() {
+		return null;
 	}
-
 }
