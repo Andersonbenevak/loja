@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import net.minidev.json.annotate.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 
 /**/
@@ -25,17 +25,10 @@ public class Acesso implements GrantedAuthority {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_acesso")
 	private long id;
-    
+
 	@Column(nullable = false)
 	private String descricao;
 
-	public String getDescricao() {
-		return descricao;
-	}
-
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
-	}
 
 	public long getId() {
 		return id;
@@ -45,21 +38,31 @@ public class Acesso implements GrantedAuthority {
 		this.id = id;
 	}
 
+	public String getDescricao() {
+		return descricao;
+	}
+
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
+
+    @JsonIgnore
+	@Override
+	public String getAuthority() {
+		return this.descricao;
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
+		if (!(o instanceof Acesso)) return false;
 		Acesso acesso = (Acesso) o;
-		return id == acesso.id;
+		return getId() == acesso.getId();
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id);
-	}
-    @JsonIgnore
-	@Override
-	public String getAuthority() {
-		return null;
+		return Objects.hash(getId());
 	}
 }
+
