@@ -31,6 +31,8 @@ public abstract class Pessoa implements Serializable {
 
 	@Column(nullable = false)
 	private String name;
+    @Column
+	private String tipoPessoa;
 
 	@Column(nullable = false)
 	private String email;
@@ -47,6 +49,14 @@ public abstract class Pessoa implements Serializable {
 
 	public void setEnderecos(List<Endereco> enderecos) {
 		this.enderecos = enderecos;
+	}
+
+	public String getTipoPessoa() {
+		return tipoPessoa;
+	}
+
+	public void setTipoPessoa(String tipoPessoa) {
+		this.tipoPessoa = tipoPessoa;
 	}
 
 	public long getId() {
