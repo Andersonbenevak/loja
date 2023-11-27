@@ -43,6 +43,46 @@ public class Usuario implements UserDetails {
 	@Column(nullable = false)
 	private String senha;
 
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public String getLogin() {
+		return login;
+	}
+
+	public void setLogin(String login) {
+		this.login = login;
+	}
+
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
+
+	public Date getDatAtualSenha() {
+		return datAtualSenha;
+	}
+
+	public void setDatAtualSenha(Date datAtualSenha) {
+		this.datAtualSenha = datAtualSenha;
+	}
+
+	public List<Acesso> getAcessos() {
+		return acessos;
+	}
+
+	public void setAcessos(List<Acesso> acessos) {
+		this.acessos = acessos;
+	}
+
 	@Column(nullable = false)
 	@Temporal(TemporalType.DATE)
 	private Date datAtualSenha;
@@ -51,7 +91,7 @@ public class Usuario implements UserDetails {
 	@JoinColumn(name = "pessoa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "pessoa_fk"))
 	private Pessoa pessoa;
 
-	@OneToMany(fetch = FetchType.LAZY)
+	@OneToMany(fetch = FetchType.EAGER)
 
 	@JoinTable(name = "usuarios_acesso", uniqueConstraints = @UniqueConstraint(columnNames = { "usuario_id",
 			"acesso_id" }, name = "unique_acesso_user"), joinColumns = @JoinColumn(name = "usuario_id", referencedColumnName = "id", table = "usuario", unique = false,
@@ -104,5 +144,6 @@ public class Usuario implements UserDetails {
 	public boolean isEnabled() {
 		return true;
 	}
+
 
 }
