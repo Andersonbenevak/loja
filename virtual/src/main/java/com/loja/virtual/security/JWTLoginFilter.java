@@ -14,63 +14,60 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.security.web.util.matcher.RequestMatcher;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.loja.virtual.model.Usuario;
 
 public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
-
+	
+	/*Confgurando o gerenciado de autenticacao*/
 	public JWTLoginFilter(String url, AuthenticationManager authenticationManager) {
-		
+	
+		/*Ibriga a autenticat a url*/
 		super(new AntPathRequestMatcher(url));
 		
+		/*Gerenciador de autenticao*/
 		setAuthenticationManager(authenticationManager);
 		
 	}
-	
-	
-	protected JWTLoginFilter(RequestMatcher requiresAuthenticationRequestMatcher) {
-		super(requiresAuthenticationRequestMatcher);
-	}
 
+	
+	/*Retorna o usuário ao processr a autenticacao*/
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
-			throws AuthenticationException, IOException, ServletException {
+			/*atenção pode ser outra documnetação*/throws AuthenticationException, IOException, ServletException {
+		/*Obter o usuário*/
+		Usuario user = new ObjectMapper().readValue(request.getInputStream(), Usuario.class);
 		
-		Usuario user = new ObjectMapper().readValue(request.getInputStream(),Usuario.class);
-		
-		return getAuthenticationManager().authenticate
-				(new UsernamePasswordAuthenticationToken(user.getLogin(),user.getSenha()));
+		/*Retorna o user com login e senha*/
+		return getAuthenticationManager().
+				authenticate(new UsernamePasswordAuthenticationToken(user.getLogin(), user.getSenha()));
 	}
 	
 	@Override
 	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
 			Authentication authResult) throws IOException, ServletException {
-	
+
 		try {
-			new JWTTokenAutenticacaoService().AddAuthentication(response, authResult.getName() );
-		}catch (Exception e) {
-		e.printStackTrace();
+			new JWTTokenAutenticacaoService().addAuthentication(response, authResult.getName());
+			
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		
 	}
+	
 	
 	@Override
 	protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException failed) throws IOException, ServletException {
-		if(failed instanceof BadCredentialsException ) {
-			response.getWriter().write("User e senha nao encontrado");
-		}else {
-				response.getWriter().write("falha ao logar" + failed.getMessage());
-
-			}
-			
-			
-		}
 		
+		if (failed instanceof BadCredentialsException) {
+			response.getWriter().write("User e senha não encontrado");
+		}else {
+			response.getWriter().write("Falha ao logar: " + failed.getMessage());
+		}
 		
 		//super.unsuccessfulAuthentication(request, response, failed);
 	}
 
-
+}

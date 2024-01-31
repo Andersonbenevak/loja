@@ -157,8 +157,8 @@ public class VirtualApplicationTests extends TestCase {
 		ResultActions retornoApi = mockMvc.perform(
 				MockMvcRequestBuilders.get("/buscarPorDesc/OBTER_LIST").content(objectMapper.writeValueAsString(acesso))
 						.accept(MediaType.APPLICATION_JSON).contentType(MediaType.APPLICATION_JSON));
-
 		assertEquals(200, retornoApi.andReturn().getResponse().getStatus());
+
 
 		List<Acesso> retornoApiList = objectMapper.readValue(retornoApi.andReturn().getResponse().getContentAsString(),
 				new TypeReference<List<Acesso>>() {
@@ -173,7 +173,7 @@ public class VirtualApplicationTests extends TestCase {
 	}
 
 	@Test
-	public void testCadastraAcesso() {
+	public void testCadastraAcesso() throws ExceptionLojaJava {
 
 		Acesso acesso = new Acesso();
 
