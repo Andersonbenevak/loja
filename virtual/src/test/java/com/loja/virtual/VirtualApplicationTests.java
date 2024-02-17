@@ -5,6 +5,7 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -22,6 +23,7 @@ import com.loja.virtual.repository.AcessoRepository;
 
 import junit.framework.TestCase;
 
+@Profile("test")
 @SpringBootTest(classes = VirtualApplication.class)
 public class VirtualApplicationTests extends TestCase {
 
@@ -155,7 +157,7 @@ public class VirtualApplicationTests extends TestCase {
 		ObjectMapper objectMapper = new ObjectMapper();
 
 		ResultActions retornoApi = mockMvc.perform(
-				MockMvcRequestBuilders.get("/buscarPorDesc/OBTER_LIST").content(objectMapper.writeValueAsString(acesso))
+				MockMvcRequestBuilders.get("/obterPorDesc/OBTER_LIST").content(objectMapper.writeValueAsString(acesso))
 						.accept(MediaType.APPLICATION_JSON).contentType(MediaType.APPLICATION_JSON));
 		assertEquals(200, retornoApi.andReturn().getResponse().getStatus());
 

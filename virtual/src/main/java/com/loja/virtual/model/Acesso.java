@@ -10,10 +10,13 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**/
+
+
 @Entity
 @Table(name = "Acesso")
 @SequenceGenerator(name = "seq_acesso", sequenceName = "seq_acesso", initialValue = 1, allocationSize = 1)
@@ -28,6 +31,12 @@ public class Acesso implements GrantedAuthority {
 
 	@Column(nullable = false)
 	private String descricao;
+	
+	 @JsonIgnore
+		@Override
+		public String getAuthority() {
+			return this.descricao;
+		}
 
 
 	public Long getId() {
@@ -46,11 +55,7 @@ public class Acesso implements GrantedAuthority {
 		this.descricao = descricao;
 	}
 
-    @JsonIgnore
-	@Override
-	public String getAuthority() {
-		return this.descricao;
-	}
+   
 
 	@Override
 	public boolean equals(Object o) {
