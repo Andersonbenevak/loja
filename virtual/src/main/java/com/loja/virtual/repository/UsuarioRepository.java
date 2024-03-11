@@ -1,5 +1,7 @@
 package com.loja.virtual.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -12,6 +14,10 @@ public interface UsuarioRepository extends CrudRepository<Usuario, Long>{
 	
 	@Query(value = "select u from Usuario u where u.login = ?1")
 	Usuario findUserByLogin(String login);
+	
+	@Query(value = "select u from Usuario u where u.datAtualSenha <= current_date - 90")
+	List<Usuario> usuarioSenhaVencida();
+
     
 	@Query(value = "select u from Usuario u where u.pessoa.id = ?1 or u.login =?2")
 	Usuario findUserByPessoa(Long id, String email);

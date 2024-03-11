@@ -17,6 +17,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.loja.virtual.enums.TipoEndereco;
 
 @Entity
@@ -51,7 +52,8 @@ public class Endereco implements Serializable {
 	
 	@Column(nullable = false)
 	private String cidade;
-
+	
+	@JsonIgnore
 	@ManyToOne(targetEntity = Pessoa.class)
 	@JoinColumn(name = "pessoa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "pessoa_fk"))
 	private Pessoa pessoa;
@@ -59,6 +61,7 @@ public class Endereco implements Serializable {
 	@Enumerated(EnumType.STRING)
 	private TipoEndereco tipoEndereco;
 	
+	@JsonIgnore
 	@ManyToOne(targetEntity = Pessoa.class)
 	@JoinColumn(name = "empresa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_fk"))
 	private Pessoa empresa;  
